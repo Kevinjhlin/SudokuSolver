@@ -6,6 +6,7 @@ board1 = [
     [0, 0, 8, 0, 0, 1, 3, 7, 0],
     [0, 2, 3, 0, 8, 0, 0, 4, 0],
     [4, 0, 0, 9, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 1, 0, 4, 0, 0],
     [9, 6, 2, 8, 0, 0, 0, 3, 0],
     [7, 0, 0, 2, 0, 3, 0, 9, 6]
 ]
@@ -42,20 +43,27 @@ def find_empty(board):
 
 
 def is_valid(board, position, input):
+    '''
+    validate if the number used in the square is a valid move in sudoku. Analyzes the height
+    :param board:
+    :param position:
+    :param input:
+    :return:
+    '''
     # validate row and column for same number
     for i in range(0, len(board)):
-        if board[position[0]][i] == input or board[i][position[1]] == input:
+        if (board[position[0]][i] == input and position[1] != i) or \
+                (board[i][position[1]] == input and position[1] != i):
             return False
 
     # validate if square contains input number
-    square_y = position[0] // 3
-    square_x = position[1] // 3
+    square_y = (position[0] // 3) * 3
+    square_x = (position[1] // 3) * 3
 
-    for i in range(square_x, square_x + 3):
-        for j in range(square_y, square_y + 3):
+    for i in range(square_y, square_y + 3):
+        for j in range(square_x, square_x + 3):
             if board[i][j] == input and (i, j) != position:
                 return False
-
     return True
 
 
@@ -65,11 +73,12 @@ def solve(board):
     :param board: list [][]
     :return: completed board
     '''
+    # find the next empty square (denoted by a 0)
     empty = find_empty(board)
 
     if empty:
         row, col = empty
-    else:
+    else:  # no more empty spaces in board, it is solved
         return True
 
     for i in range(1, 10):
@@ -86,5 +95,5 @@ def solve(board):
 if __name__ == '__main__':
     print_board(board1)
     solve(board1)
-    print("And the solveed version is this:")
+    print("And the solved version is this:")
     print_board(board1)
