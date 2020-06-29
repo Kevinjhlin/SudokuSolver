@@ -11,6 +11,36 @@ board1 = [
     [7, 0, 0, 2, 0, 3, 0, 9, 6]
 ]
 
+board2 = [
+    [0, 7, 0, 0, 0, 0, 0, 0, 9],
+    [5, 1, 0, 4, 2, 0, 6, 0, 0],
+    [0, 8, 0, 3, 0, 0, 7, 0, 0],
+    [0, 0, 8, 0, 0, 1, 3, 7, 0],
+    [0, 2, 3, 0, 8, 0, 0, 4, 0],
+    [4, 0, 0, 9, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 1, 0, 4, 0, 0],
+    [9, 6, 2, 8, 0, 0, 0, 3, 0],
+]
+
+
+def is_board_valid(board):
+    '''
+    makes sure board input is a valid sudoku format board
+    :param board: list[][]
+    :return: bool
+    '''
+
+    req_len_y = 9
+    req_len_x = 9
+
+    if len(board) == req_len_x:
+        for i in range(0, 8):
+            if len(board[i]) != req_len_y:
+                return False
+        return True
+
+    return False
+
 
 def print_board(board):
     '''
@@ -74,6 +104,10 @@ def solve(board):
     :return: completed board
     '''
     # find the next empty square (denoted by a 0)
+
+    if not is_board_valid(board):
+        print("this is an invalid board. Please Check again")
+        return False
     empty = find_empty(board)
 
     if empty:
@@ -93,7 +127,12 @@ def solve(board):
 
 
 if __name__ == '__main__':
+    print("Board 1 Submitted:")
     print_board(board1)
     solve(board1)
     print("And the solved version is this:")
     print_board(board1)
+
+    print("Board 2 Submitted:")
+    solve(board2)
+    print_board(board2)
